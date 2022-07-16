@@ -12,6 +12,7 @@
     <groupId>com.github.gaboso</groupId>
     <artifactId>medical-record</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>medical-record</name>
     <description>Medical Record project</description>
 

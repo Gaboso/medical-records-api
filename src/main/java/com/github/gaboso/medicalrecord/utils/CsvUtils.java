@@ -1,6 +1,6 @@
 package com.github.gaboso.medicalrecord.utils;
 
-import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordDto;
+import com.github.gaboso.medicalrecord.domain.dto.CsvDto;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.stereotype.Component;
@@ -14,12 +14,12 @@ import java.util.List;
 @Component
 public class CsvUtils {
 
-    public List<MedicalRecordDto> getDataFromFile(MultipartFile file) throws IOException {
+    public List<CsvDto> getDataFromFile(MultipartFile file) throws IOException {
         Reader reader = new InputStreamReader(file.getInputStream());
 
-        CsvToBean<MedicalRecordDto> csvToBean = new CsvToBeanBuilder(reader)
+        CsvToBean<CsvDto> csvToBean = new CsvToBeanBuilder(reader)
             .withSkipLines(1)
-            .withType(MedicalRecordDto.class)
+            .withType(CsvDto.class)
             .withIgnoreLeadingWhiteSpace(true)
             .build();
         return csvToBean.parse();

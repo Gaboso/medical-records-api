@@ -1,6 +1,7 @@
 package com.github.gaboso.medicalrecord.service;
 
-import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordDto;
+import com.github.gaboso.medicalrecord.domain.dto.CsvDto;
+import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordResponseDto;
 import com.github.gaboso.medicalrecord.domain.entity.MedicalRecordEntity;
 import com.github.gaboso.medicalrecord.mapper.MedicalRecordMapper;
 import com.github.gaboso.medicalrecord.repository.MedicalRecordRepository;
@@ -21,20 +22,20 @@ public class MedicalRecordService {
     }
 
     @Transactional
-    public List<MedicalRecordDto> saveAll(List<MedicalRecordDto> dtoList) {
+    public List<MedicalRecordResponseDto> saveAll(List<CsvDto> dtoList) {
         List<MedicalRecordEntity> entityList = mapper.toMedicalRecordEntityList(dtoList);
         List<MedicalRecordEntity> savedList = repository.saveAll(entityList);
         return mapper.toMedicalRecordDtoList(savedList);
     }
 
-    public MedicalRecordDto fetchByCode(String code) {
+    public MedicalRecordResponseDto fetchByCode(String code) {
         MedicalRecordEntity entity = repository.findByCode(code)
                                                .orElseThrow();
 
         return mapper.toMedicalRecordDto(entity);
     }
 
-    public List<MedicalRecordDto> fetchAll() {
+    public List<MedicalRecordResponseDto> fetchAll() {
         List<MedicalRecordEntity> entityList = repository.findAll();
         return mapper.toMedicalRecordDtoList(entityList);
     }

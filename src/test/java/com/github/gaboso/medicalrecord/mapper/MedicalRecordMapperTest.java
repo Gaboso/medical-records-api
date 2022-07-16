@@ -1,6 +1,6 @@
 package com.github.gaboso.medicalrecord.mapper;
 
-import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordDto;
+import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordResponseDto;
 import com.github.gaboso.medicalrecord.domain.entity.MedicalRecordEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,8 @@ class MedicalRecordMapperTest {
     @Test
     void toMedicalRecordDto_ValidInput_IsProperlyMapped() {
         MedicalRecordEntity entity = buildValidEntity();
-        MedicalRecordDto expected = buildValidDto();
-        MedicalRecordDto result = mapper.toMedicalRecordDto(entity);
+        MedicalRecordResponseDto expected = buildValidDto();
+        MedicalRecordResponseDto result = mapper.toMedicalRecordDto(entity);
 
         Assertions.assertEquals(expected.getLongDescription(), result.getLongDescription(), "Result does not match Expected");
         Assertions.assertEquals(expected.getCode(), result.getCode(), "Result does not match Expected");
@@ -28,14 +28,14 @@ class MedicalRecordMapperTest {
 
     @Test
     void toMedicalRecordDto_NullInput_IsMappedAsNull() {
-        MedicalRecordDto result = mapper.toMedicalRecordDto(null);
+        MedicalRecordResponseDto result = mapper.toMedicalRecordDto(null);
 
         Assertions.assertNull(result, "Result does not match Expected");
     }
 
     @Test
     void toMedicalRecordEntity_ValidInput_IsProperlyMapped() throws Exception {
-        MedicalRecordDto dto = buildValidDto();
+        MedicalRecordResponseDto dto = buildValidDto();
         MedicalRecordEntity expected = buildValidEntity();
         MedicalRecordEntity result = mapper.toMedicalRecordEntity(dto);
 
@@ -59,13 +59,13 @@ class MedicalRecordMapperTest {
         return entity;
     }
 
-    private MedicalRecordDto buildValidDto() {
-        return MedicalRecordDto.builder()
-                               .codeListCode("ZIB001")
-                               .code("271636001")
-                               .displayValue("Polsslag regelmatig")
-                               .sortingPriority(2)
-                               .build();
+    private MedicalRecordResponseDto buildValidDto() {
+        return MedicalRecordResponseDto.builder()
+                                       .codeListCode("ZIB001")
+                                       .code("271636001")
+                                       .displayValue("Polsslag regelmatig")
+                                       .sortingPriority(2)
+                                       .build();
     }
 
 }

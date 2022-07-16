@@ -1,7 +1,7 @@
 package com.github.gaboso.medicalrecord.controller;
 
-import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordDto;
-import com.github.gaboso.medicalrecord.mapper.MedicalRecordMapper;
+import com.github.gaboso.medicalrecord.domain.dto.CsvDto;
+import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordResponseDto;
 import com.github.gaboso.medicalrecord.service.MedicalRecordService;
 import com.github.gaboso.medicalrecord.utils.CsvUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -33,32 +33,32 @@ public class MedicalRecordController {
     }
 
     @PostMapping(path = {"/upload"})
-    public ResponseEntity<List<MedicalRecordDto>> uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
+    public ResponseEntity<List<MedicalRecordResponseDto>> uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
         log.debug("REST request to upload csv file data");
 
         if (file.isEmpty()) {
             throw new Exception("File is empty.");
         }
 
-        List<MedicalRecordDto> dtoList = csvUtils.getDataFromFile(file);
-        List<MedicalRecordDto> savedDtoList = service.saveAll(dtoList);
+        List<CsvDto> dtoList = csvUtils.getDataFromFile(file);
+        List<MedicalRecordResponseDto> savedDtoList = service.saveAll(dtoList);
 
         return ResponseEntity.ok(savedDtoList);
     }
 
     @GetMapping("/fetch/{code}")
-    public ResponseEntity<MedicalRecordDto> fetchByCode(@PathVariable("code") String code) {
+    public ResponseEntity<MedicalRecordResponseDto> fetchByCode(@PathVariable("code") String code) {
         log.debug("REST request to get medical records by `code`");
 
-        MedicalRecordDto dto = service.fetchByCode(code);
+        MedicalRecordResponseDto dto = service.fetchByCode(code);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/fetch/all")
-    public ResponseEntity<List<MedicalRecordDto>> fetchAll() {
+    public ResponseEntity<List<MedicalRecordResponseDto>> fetchAll() {
         log.debug("REST request to get all medical records");
 
-        List<MedicalRecordDto> dtoList = service.fetchAll();
+        List<MedicalRecordResponseDto> dtoList = service.fetchAll();
         return ResponseEntity.ok(dtoList);
     }
 

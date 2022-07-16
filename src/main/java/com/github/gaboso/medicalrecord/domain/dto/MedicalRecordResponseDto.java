@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicalRecordDto {
+public class MedicalRecordResponseDto {
 
     private String source;
     private String codeListCode;

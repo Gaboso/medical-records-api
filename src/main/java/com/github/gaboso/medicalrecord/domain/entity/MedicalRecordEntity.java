@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Getter
 @Setter
@@ -40,9 +42,11 @@ public class MedicalRecordEntity {
     private String longDescription;
 
     @Column(name = "from_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date fromDate;
 
     @Column(name = "to_date")
+    @Temporal(TemporalType.DATE)
     private Date toDate;
 
     @Column(name = "sorting_priority")
