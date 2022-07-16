@@ -5,6 +5,7 @@ import com.github.gaboso.medicalrecord.domain.entity.MedicalRecordEntity;
 import com.github.gaboso.medicalrecord.mapper.MedicalRecordMapper;
 import com.github.gaboso.medicalrecord.repository.MedicalRecordRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,8 +20,11 @@ public class MedicalRecordService {
         this.mapper = mapper;
     }
 
-    public List<MedicalRecordDto> uploadCsvData() {
-        return null;
+    @Transactional
+    public List<MedicalRecordDto> saveAll(List<MedicalRecordDto> dtoList) {
+        List<MedicalRecordEntity> entityList = mapper.toMedicalRecordEntityList(dtoList);
+        List<MedicalRecordEntity> savedList = repository.saveAll(entityList);
+        return mapper.toMedicalRecordDtoList(savedList);
     }
 
     public MedicalRecordDto fetchByCode(String code) {
@@ -35,6 +39,7 @@ public class MedicalRecordService {
         return mapper.toMedicalRecordDtoList(entityList);
     }
 
+    @Transactional
     public void deleteAll() {
         repository.deleteAll();
     }

@@ -3,6 +3,7 @@ package com.github.gaboso.medicalrecord.controller;
 import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordDto;
 import com.github.gaboso.medicalrecord.mapper.MedicalRecordMapper;
 import com.github.gaboso.medicalrecord.service.MedicalRecordService;
+import com.github.gaboso.medicalrecord.utils.CsvUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +25,11 @@ import java.util.List;
 public class MedicalRecordController {
 
     private final MedicalRecordService service;
-    private final MedicalRecordMapper mapper;
+    private final CsvUtils csvUtils;
 
-    public MedicalRecordController(MedicalRecordService service, MedicalRecordMapper mapper) {
+    public MedicalRecordController(MedicalRecordService service, CsvUtils csvUtils) {
         this.service = service;
-        this.mapper = mapper;
+        this.csvUtils = csvUtils;
     }
 
     @PostMapping(path = {"/upload"})
@@ -39,9 +40,10 @@ public class MedicalRecordController {
             throw new Exception("File is empty.");
         }
 
-        service.uploadCsvData();
+        List<MedicalRecordDto> dtoList = csvUtils.getDataFromFile(file);
+        List<MedicalRecordDto> savedDtoList = service.saveAll(dtoList);
 
-        return null;
+        return ResponseEntity.ok(savedDtoList);
     }
 
     @GetMapping("/fetch/{code}")
