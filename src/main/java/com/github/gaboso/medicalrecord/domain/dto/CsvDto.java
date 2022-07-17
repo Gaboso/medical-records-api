@@ -40,4 +40,5 @@ public final class CsvDto {
 
     @CsvBindByPosition(position = 7)
     private Integer sortingPriority;
+
 }

@@ -29,3 +29,7 @@ docker-compose -f docker-compose.yml up -d
 | GET         | `/api/v1/fetch/{code}/`                 | Fetch medical record by code |
 | GET         | `/api/v1/fetch/all/`                    | Fetch all medical records    |
 | DELETE      | `/api/v1/delete/all/`                   | Delete all medical records   |
+
+-----
+
+PS: _The last commits were after the time limit, but I wasn't happy with the previous solution_

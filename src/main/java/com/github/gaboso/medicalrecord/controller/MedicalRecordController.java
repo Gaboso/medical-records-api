@@ -2,6 +2,7 @@ package com.github.gaboso.medicalrecord.controller;
 
 import com.github.gaboso.medicalrecord.domain.dto.CsvDto;
 import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordResponseDto;
+import com.github.gaboso.medicalrecord.exception.NotFoundException;
 import com.github.gaboso.medicalrecord.service.MedicalRecordService;
 import com.github.gaboso.medicalrecord.utils.CsvUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -36,18 +37,15 @@ public class MedicalRecordController {
     public ResponseEntity<List<MedicalRecordResponseDto>> uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
         log.debug("REST request to upload csv file data");
 
-        if (file.isEmpty()) {
-            throw new Exception("File is empty.");
-        }
-
+        csvUtils.validateFile(file);
         List<CsvDto> dtoList = csvUtils.getDataFromFile(file);
         List<MedicalRecordResponseDto> savedDtoList = service.saveAll(dtoList);
 
-        return ResponseEntity.ok(savedDtoList);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedDtoList);
     }
 
     @GetMapping("/fetch/{code}")
-    public ResponseEntity<MedicalRecordResponseDto> fetchByCode(@PathVariable("code") String code) {
+    public ResponseEntity<MedicalRecordResponseDto> fetchByCode(@PathVariable("code") String code) throws NotFoundException {
         log.debug("REST request to get medical records by `code`");
 
         MedicalRecordResponseDto dto = service.fetchByCode(code);

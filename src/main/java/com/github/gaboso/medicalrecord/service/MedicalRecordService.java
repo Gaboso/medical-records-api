@@ -3,6 +3,7 @@ package com.github.gaboso.medicalrecord.service;
 import com.github.gaboso.medicalrecord.domain.dto.CsvDto;
 import com.github.gaboso.medicalrecord.domain.dto.MedicalRecordResponseDto;
 import com.github.gaboso.medicalrecord.domain.entity.MedicalRecordEntity;
+import com.github.gaboso.medicalrecord.exception.NotFoundException;
 import com.github.gaboso.medicalrecord.mapper.MedicalRecordMapper;
 import com.github.gaboso.medicalrecord.repository.MedicalRecordRepository;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,9 @@ public class MedicalRecordService {
         return mapper.toMedicalRecordDtoList(savedList);
     }
 
-    public MedicalRecordResponseDto fetchByCode(String code) {
+    public MedicalRecordResponseDto fetchByCode(String code) throws NotFoundException {
         MedicalRecordEntity entity = repository.findByCode(code)
-                                               .orElseThrow();
+                                               .orElseThrow(() -> new NotFoundException(code));
 
         return mapper.toMedicalRecordDto(entity);
     }
